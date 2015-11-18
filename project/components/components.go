@@ -64,3 +64,8 @@ func Mux4x1(a, b, c, d, op int) int {
 	}
 	return 0
 }
+
+//ALU1bit uses the sub components AND, OR, NOT, XOR, Adder, and Mux4x1
+func ALU1bit(a, b, Cin, Cout, op int) int {
+
+}
