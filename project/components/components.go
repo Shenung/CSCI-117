@@ -41,6 +41,10 @@ func Adder(a, b, c int) (int, int) {
 }
 
 //Mux4x1 takes in 4 signals and uses and op code to figure out which result to spit out
+// 00 -> And
+// 01 -> Or
+// 10 -> add
+// 11 -> Dead signal
 func Mux4x1(a, b, c, d, op int) int {
 	switch {
 	case op == 00:
@@ -66,8 +70,16 @@ func Mux4x1(a, b, c, d, op int) int {
 }
 
 //ALU1bit uses the sub components AND, OR, NOT, XOR, Adder, and Mux4x1
-func ALU1bit(a, b, Cin, Cout, op int) (int, int) {
+func ALU1bit(a, b, Cin, op int) (int, int) {
 	sum, out := Adder(a, b, Cin)
 	result := Mux4x1(AndGate(a, b), OrGate(a, b), sum, 0, op)
 	return result, out
+}
+
+//ALU1bitOF is the last alu to run and checks for overflow
+func ALU1bitOF(a, b, Cin, op int) (int, int) {
+	sum, out := Adder(a, b, Cin)
+	overflow := XorGate(Cin, out)
+	result := Mux4x1(AndGate(a, b), OrGate(a, b), sum, 0, op)
+	return result, overflow
 }
