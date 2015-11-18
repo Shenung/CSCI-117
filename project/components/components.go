@@ -1,4 +1,4 @@
-package componenets
+package components
 
 import "fmt"
 
@@ -66,6 +66,8 @@ func Mux4x1(a, b, c, d, op int) int {
 }
 
 //ALU1bit uses the sub components AND, OR, NOT, XOR, Adder, and Mux4x1
-func ALU1bit(a, b, Cin, Cout, op int) int {
-
+func ALU1bit(a, b, Cin, Cout, op int) (int, int) {
+	sum, out := Adder(a, b, Cin)
+	result := Mux4x1(AndGate(a, b), OrGate(a, b), sum, 0, op)
+	return result, out
 }
