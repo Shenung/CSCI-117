@@ -83,3 +83,16 @@ func ALU1bitOF(a, b, Cin, op int) (int, int) {
 	result := Mux4x1(AndGate(a, b), OrGate(a, b), sum, 0, op)
 	return result, overflow
 }
+
+//ALU16bit simulates a 16 bit MIPS processor
+func ALU16bit(a, b []byte, cin, op int) (int, int) {
+	var result, out
+	for i := 15; i >= 0; i-- {
+		if i == 0 {
+			ALU1bitOF(typeConv(a[i]), typeConv(b[i]), cin, op)
+		} else if a[i] == 48 || a[i] == 49 && b[i] == 48 || b[i] == 49 {
+			ALU1bit(typeConv(a[i]), typeConv(b[i]), cin, op)
+		}
+	}
+
+}

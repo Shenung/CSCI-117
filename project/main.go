@@ -6,10 +6,30 @@ import (
 	"./components"
 )
 
-func main() {
-	fmt.Println("Enter 16bit binary [A]: ")
+func typeConv(a byte) int {
+	if a == 48 {
+		return 0
+	}
+	return 1
+}
 
+func main() {
+	var a, b = make([]byte, 16), make([]byte, 16)
+
+	fmt.Println("Enter 16bit binary [A]: ")
+	fmt.Scanln(&a)
 	fmt.Println("Enter 16bit binary [B]: ")
+	fmt.Scanln(&b)
+
+	fmt.Println(a)
+	fmt.Println(b)
+
+	for i := 15; i >= 0; i-- {
+		if a[i] == 48 || a[i] == 49 && b[i] == 48 || b[i] == 49 {
+			fmt.Println("from a->", typeConv(a[i]))
+			fmt.Println("from b->", typeConv(b[i]))
+		}
+	}
 
 	fmt.Println("And gate: ", components.AndGate(1, 1))
 	fmt.Println("Or gate: ", components.OrGate(1, 1))
