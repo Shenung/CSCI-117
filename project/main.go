@@ -1,43 +1,43 @@
+//Author: Shenung Fouamvung
+
 package main
 
-import (
-	"fmt"
+//MIPS processor simulation writen in Go Lang
+//must have Go Lang installed to compile and run
+//takes in 2 16bit binary values and computes them using logic gates to come to a result
+//to run, CD to the file directory and use the command in command line terminal "go run main.go"
+//example inputs:
+//	a: 000000000001010
+//  b: 000000000001101
+//output:
+//	result: 0000000000010111
+//	overflow: 0
 
-	"./components"
+import (
+	"CSCI-117/project/components"
+	"fmt"
 )
 
-func typeConv(a byte) int {
-	if a == 48 {
-		return 0
-	}
-	return 1
-}
-
 func main() {
-	var a, b = make([]byte, 16), make([]byte, 16)
+	var a, b, ac = make([]byte, 16), make([]byte, 16), make([]byte, 16)
 
 	fmt.Println("Enter 16bit binary [A]: ")
 	fmt.Scanln(&a)
 	fmt.Println("Enter 16bit binary [B]: ")
 	fmt.Scanln(&b)
+	fmt.Println("Enter 16bit AC value: ")
+	fmt.Scanln(&ac)
 
 	fmt.Println(a)
 	fmt.Println(b)
 
-	for i := 15; i >= 0; i-- {
-		if a[i] == 48 || a[i] == 49 && b[i] == 48 || b[i] == 49 {
-			fmt.Println("from a->", typeConv(a[i]))
-			fmt.Println("from b->", typeConv(b[i]))
-		}
+	results, overflow := components.ALU16bit(a, b, 10)
+	for i := range results {
+		fmt.Print(results[i])
 	}
+	fmt.Println()
+	fmt.Println("overflow:", overflow)
 
-	fmt.Println("And gate: ", components.AndGate(1, 1))
-	fmt.Println("Or gate: ", components.OrGate(1, 1))
-	fmt.Println("Xor gate: ", components.XorGate(1, 1))
-	sum, cout := components.Adder(1, 1, 1)
-	fmt.Println("Adder: sum ->", sum, " cout ->", cout)
-	result := components.Mux4x1(components.AndGate(1, 1), components.OrGate(1, 1), sum, 0, 00)
-	fmt.Println("Mux4x1: ", result)
-	fresult, cout := components.ALU1bit(1, 1, 1, 00)
-	fmt.Println("ALU1bit: result->", fresult, " cout->", cout)
+	fmt.Println(components.ALU16bitMult(a, b, ac))
+
 }
