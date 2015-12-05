@@ -6,8 +6,6 @@ import "fmt"
 //sw  101011
 
 var reg = [8]int{}
-
-// var cache = [8][2]int{}
 var mainMem = [128]int{} //init address plus 5
 
 //this function starts before main programs is ran to initialize mainMem values
@@ -18,15 +16,19 @@ func init() {
 }
 
 //make struct of row and block and put into array
+type block struct { //[valid][tag][data]
+	valid bool
+	tag   int
+	data  string
+}
+
 type row struct {
-	cacheBlk [8]block
+	block1 [8]block
+	block2 [8]block
 }
 
-type block struct {
-	block1 [8]int
-	block2 [8]int
-}
-
+//this is a cache that is type row used for storing the data
+//simulates a cache memory block
 var cache row
 
 func main() {
@@ -46,6 +48,7 @@ func decode(code string) {
 	fmt.Println("rs field-> ", rs)
 	fmt.Println("rt field-> ", rt)
 	fmt.Println("offset field-> ", offset)
+	instruction(op, rs, rt, offset)
 }
 
 func instruction(op, rs, rt, offset string) {
