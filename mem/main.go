@@ -44,19 +44,14 @@ type row struct {
 var cache row
 
 func main() {
-	var code = make([]byte, 32)
 	rdr, err := os.Open("test.txt")
 	if err != nil {
 		panic(err)
 	}
 	scanner := bufio.NewScanner(rdr)
 	for scanner.Scan() {
-		fmt.Println(scanner.Text())
-		fmt.Scanln(&code)
+		decode(scanner.Text())
 	}
-	// fmt.Println("32bit code -> ")
-	var convertedCode = string(code)
-	decode(convertedCode)
 }
 
 func decode(code string) {
