@@ -1,10 +1,20 @@
+//Shenung Fouamvung
+//Last Lab - Memory
+//This program simulates data fetching and storing using MIPS
+//Simulates a cpu with registries, Cache block, and Main Memory block
+//input commands are recieved fom a text file with the machine binary codes
+//
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
-//lw  100011
-//sw  101011
-
+// lw  100011
+// lw  $rt, offset($rs)
+// sw  101011
+// sw  $rt, offset($rs)
 var reg = [8]int{}
 var mainMem = [128]int{} //init address plus 5
 
@@ -32,6 +42,10 @@ type row struct {
 var cache row
 
 func main() {
+	rdr, err := os.Open("test.txt")
+	if err != nil {
+		panic(err)
+	}
 	var code = make([]byte, 32)
 	fmt.Println("32bit code -> ")
 	fmt.Scanln(&code)
