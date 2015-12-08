@@ -7,6 +7,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 )
@@ -15,6 +16,7 @@ import (
 // lw  $rt, offset($rs)
 // sw  101011
 // sw  $rt, offset($rs)
+// [op][rs][rt][offset]
 var reg = [8]int{}
 var mainMem = [128]int{} //init address plus 5
 
@@ -42,13 +44,17 @@ type row struct {
 var cache row
 
 func main() {
+	var code = make([]byte, 32)
 	rdr, err := os.Open("test.txt")
 	if err != nil {
 		panic(err)
 	}
-	var code = make([]byte, 32)
-	fmt.Println("32bit code -> ")
-	fmt.Scanln(&code)
+	scanner := bufio.NewScanner(rdr)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+		fmt.Scanln(&code)
+	}
+	// fmt.Println("32bit code -> ")
 	var convertedCode = string(code)
 	decode(convertedCode)
 }
@@ -67,8 +73,12 @@ func decode(code string) {
 
 func instruction(op, rs, rt, offset string) {
 	if op == "100011" {
+		//[op][rs][rt][offset]
+		// lw rt, offset(rs)
 
 	} else if op == "101011" {
+		//[op][rs][rt][offset]
+		// sw rt, offset(rs)
 
 	}
 }
